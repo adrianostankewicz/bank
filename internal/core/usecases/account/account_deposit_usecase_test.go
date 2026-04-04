@@ -44,7 +44,7 @@ func TestAccountDepositUseCaseExistingAccount(t *testing.T) {
 	assert.Equal(t, int64(150), output.Balance.Amount())
 }
 
-func TestDepositUseCaseZeroAmount(t *testing.T) {
+func TestAccountDepositUseCaseZeroAmount(t *testing.T) {
 	accountRepo := account.NewInMemoryAccountRepository()
 	transactionRepo := transaction.NewInMemoryTransactionRepository()
 	uc := usecases.NewAccountDepositUseCase(accountRepo, transactionRepo)
@@ -56,7 +56,7 @@ func TestDepositUseCaseZeroAmount(t *testing.T) {
 	assert.Nil(t, output)
 }
 
-func TestDepositUseCaseNegativeAmount(t *testing.T) {
+func TestAccountDepositUseCaseNegativeAmount(t *testing.T) {
 	accountRepo := account.NewInMemoryAccountRepository()
 	transactionRepo := transaction.NewInMemoryTransactionRepository()
 	uc := usecases.NewAccountDepositUseCase(accountRepo, transactionRepo)

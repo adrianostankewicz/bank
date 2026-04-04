@@ -8,34 +8,33 @@ import (
 	"github.com/adrianostankewicz/bank/internal/core/shared/money"
 )
 
-type AccountDepositUseCase struct {
+type AccountWithdrawUseCase struct {
 	accountRepo     account.AccountRepository
 	transactionRepo transaction.TransactionRepository
 }
 
-func NewAccountDepositUseCase(
+func NewAccountWithdrawUseCase(
 	accountRepo account.AccountRepository,
 	transactionRepo transaction.TransactionRepository,
-) *AccountDepositUseCase {
-	return &AccountDepositUseCase{
+) *AccountWithdrawUseCase {
+	return &AccountWithdrawUseCase{
 		accountRepo:     accountRepo,
 		transactionRepo: transactionRepo,
 	}
 }
 
-type AccountDepositInput struct {
+type AccountWithdrawInput struct {
 	AccountID string
 	Amount    money.Money
 }
 
-type AccountDepositOutput struct {
+type AccountWithdrawOutput struct {
 	Account     account.Account
 	Transaction *transaction.Transaction
 	Balance     money.Money
 }
 
-func (uc *AccountDepositUseCase) Execute(input AccountDepositInput) (*AccountDepositOutput, error) {
-
+func (uc *AccountWithdrawUseCase) Execute(input AccountWithdrawInput) (*AccountWithdrawOutput, error) {
 	if input.Amount.IsZero() {
 		return nil, errors.New("amount must be greater than zero")
 	}
@@ -46,18 +45,7 @@ func (uc *AccountDepositUseCase) Execute(input AccountDepositInput) (*AccountDep
 
 	acc, err := uc.accountRepo.FindById(input.AccountID)
 	if err != nil {
-		acc = account.NewBaseAccount(input.AccountID)
-		err = uc.accountRepo.Save(acc)
-		if err != nil {
-			return nil, err
-		}
-	}
-
-	tr := transaction.NewTransaction(input.AccountID, input.Amount, transaction.Credit)
-
-	err = uc.transactionRepo.Save(tr)
-	if err != nil {
-		return nil, err
+		return nil, errors.New("account not found")
 	}
 
 	transactions, err := uc.transactionRepo.FindByAccountID(input.AccountID)
@@ -70,9 +58,19 @@ func (uc *AccountDepositUseCase) Execute(input AccountDepositInput) (*AccountDep
 		balance = balance.Add(t.Amount())
 	}
 
-	return &AccountDepositOutput{
+	if input.Amount.IsGreaterThan(balance) {
+		return nil, errors.New("insufficient balance")
+	}
+
+	tr := transaction.NewTransaction(input.AccountID, input.Amount, transaction.Debit)
+
+	if err := uc.transactionRepo.Save(tr); err != nil {
+		return nil, err
+	}
+
+	return &AccountWithdrawOutput{
 		Account:     acc,
 		Transaction: tr,
-		Balance:     balance,
+		Balance:     balance.Sub(input.Amount),
 	}, nil
 }

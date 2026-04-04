@@ -32,3 +32,21 @@ func TestIsNegative(t *testing.T) {
 	a := money.NewMoney(-100)
 	assert.True(t, a.IsNegative())
 }
+
+func TestMoneyIsGreaterThan(t *testing.T) {
+	a := money.NewMoney(100)
+	b := money.NewMoney(50)
+	assert.True(t, a.IsGreaterThan(b))
+}
+
+func TestMoneyIsNotGreaterThan(t *testing.T) {
+	a := money.NewMoney(50)
+	b := money.NewMoney(100)
+	assert.False(t, a.IsGreaterThan(b))
+}
+
+func TestMoneyIsGreaterThanEqual(t *testing.T) {
+	a := money.NewMoney(100)
+	b := money.NewMoney(100)
+	assert.False(t, a.IsGreaterThan(b))
+}
