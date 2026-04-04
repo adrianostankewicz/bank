@@ -1,0 +1,19 @@
+package transaction_test
+
+import (
+	"testing"
+
+	"github.com/adrianostankewicz/bank/internal/core/domain/transaction"
+	"github.com/adrianostankewicz/bank/internal/core/shared/money"
+	"github.com/stretchr/testify/assert"
+)
+
+func TestNewTransaction(t *testing.T) {
+	tr := transaction.NewTransaction("1", money.NewMoney(100), transaction.Deposit)
+
+	assert.NotEmpty(t, tr.ID())
+	assert.Equal(t, "1", tr.AccountID())
+	assert.Equal(t, int64(100), tr.Amount().Amount())
+	assert.Equal(t, transaction.Deposit, tr.TransactionType())
+	assert.NotZero(t, tr.CreatedAt())
+}

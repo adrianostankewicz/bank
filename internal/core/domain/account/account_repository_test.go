@@ -3,7 +3,7 @@ package account_test
 import (
 	"testing"
 
-	"github.com/adrianostankewicz/bank/internal/domain/account"
+	"github.com/adrianostankewicz/bank/internal/core/domain/account"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -19,8 +19,8 @@ func NewInMemoryAccountRepository() *InMemoryAccountRepository {
 }
 
 func (r *InMemoryAccountRepository) FindById(id string) (Account, error) {
-	account, err := r.accounts[id]
-	if !err {
+	account, ok := r.accounts[id]
+	if !ok {
 		return nil, errors.New("account not found")
 	}
 
