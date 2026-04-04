@@ -10,7 +10,7 @@ import (
 )
 
 func TestCreateAccount(t *testing.T) {
-	a := account.NewAccount()
+	a := account.NewBaseAccount("1")
 
 	assert.NotEmpty(t, a.ID())
 	assert.Equal(t, int64(0), a.Balance().Amount())
@@ -20,7 +20,7 @@ func TestCreateAccount(t *testing.T) {
 }
 
 func TestAccountDeposit(t *testing.T) {
-	a := account.NewAccount()
+	a := account.NewBaseAccount("1")
 	created := a.CreatedAt()
 	updated := a.UpdatedAt()
 	id := a.ID()
@@ -40,7 +40,7 @@ func TestAccountDeposit(t *testing.T) {
 }
 
 func TestAccountDepositZeroValue(t *testing.T) {
-	a := account.NewAccount()
+	a := account.NewBaseAccount("1")
 
 	v := money.NewMoney(0)
 	err := a.Deposit(v)
@@ -49,7 +49,7 @@ func TestAccountDepositZeroValue(t *testing.T) {
 }
 
 func TestAccountDepositNegativeValue(t *testing.T) {
-	a := account.NewAccount()
+	a := account.NewBaseAccount("1")
 
 	v := money.NewMoney(-100)
 	err := a.Deposit(v)
@@ -58,7 +58,7 @@ func TestAccountDepositNegativeValue(t *testing.T) {
 }
 
 func TestAccountWithdraw(t *testing.T) {
-	a := account.NewAccount()
+	a := account.NewBaseAccount("1")
 	v := money.NewMoney(200)
 	a.Deposit(v)
 
@@ -81,7 +81,7 @@ func TestAccountWithdraw(t *testing.T) {
 }
 
 func TestAccountWithdrawNegativeValue(t *testing.T) {
-	a := account.NewAccount()
+	a := account.NewBaseAccount("1")
 	v := money.NewMoney(50)
 	a.Deposit(v)
 
@@ -94,7 +94,7 @@ func TestAccountWithdrawNegativeValue(t *testing.T) {
 }
 
 func TestAccountWithdrawZeroValue(t *testing.T) {
-	a := account.NewAccount()
+	a := account.NewBaseAccount("1")
 	v := money.NewMoney(50)
 	a.Deposit(v)
 
@@ -107,7 +107,7 @@ func TestAccountWithdrawZeroValue(t *testing.T) {
 }
 
 func TestAccountWithdrawInsufficientBalance(t *testing.T) {
-	a := account.NewAccount()
+	a := account.NewBaseAccount("1")
 	v := money.NewMoney(50)
 	a.Deposit(v)
 

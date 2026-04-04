@@ -5,10 +5,19 @@ import (
 	"time"
 
 	"github.com/adrianostankewicz/bank/internal/domain/shared/money"
-	"github.com/google/uuid"
 )
 
-type Account struct {
+type Account interface {
+	ID() string
+	Balance() money.Money
+	Deposit(money.Money) error
+	Withdraw(money.Money) error
+	CreatedAt() time.Time
+	UpdatedAt() time.Time
+	DeletedAt() *time.Time
+}
+
+type BaseAccount struct {
 	id        string
 	balance   money.Money
 	createdAt time.Time
@@ -16,9 +25,9 @@ type Account struct {
 	deletedAt *time.Time
 }
 
-func NewAccount() *Account {
-	account := &Account{
-		id:        uuid.New().String(),
+func NewBaseAccount(id string) *BaseAccount {
+	account := &BaseAccount{
+		id:        id,
 		balance:   money.NewMoney(0),
 		createdAt: time.Now(),
 		updatedAt: time.Now(),
@@ -26,27 +35,27 @@ func NewAccount() *Account {
 	return account
 }
 
-func (a Account) ID() string {
+func (a BaseAccount) ID() string {
 	return a.id
 }
 
-func (a Account) Balance() money.Money {
+func (a BaseAccount) Balance() money.Money {
 	return a.balance
 }
 
-func (a Account) CreatedAt() time.Time {
+func (a BaseAccount) CreatedAt() time.Time {
 	return a.createdAt
 }
 
-func (a Account) UpdatedAt() time.Time {
+func (a BaseAccount) UpdatedAt() time.Time {
 	return a.updatedAt
 }
 
-func (a Account) DeletedAt() *time.Time {
+func (a BaseAccount) DeletedAt() *time.Time {
 	return a.deletedAt
 }
 
-func (a *Account) Deposit(v money.Money) error {
+func (a *BaseAccount) Deposit(v money.Money) error {
 	if v.IsZero() {
 		return errors.New("amount must be greater than zero")
 	}
@@ -61,7 +70,7 @@ func (a *Account) Deposit(v money.Money) error {
 	return nil
 }
 
-func (a *Account) Withdraw(v money.Money) error {
+func (a *BaseAccount) Withdraw(v money.Money) error {
 	if v.IsNegative() {
 		return errors.New("amount cannot be negative")
 	}
