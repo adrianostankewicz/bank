@@ -3,9 +3,9 @@ package usecases
 import (
 	"errors"
 
-	"github.com/adrianostankewicz/bank/internal/core/domain/account"
-	"github.com/adrianostankewicz/bank/internal/core/domain/transaction"
-	"github.com/adrianostankewicz/bank/internal/core/shared/money"
+	"github.com/adrianostankewicz/bank/internal/domain/account"
+	"github.com/adrianostankewicz/bank/internal/domain/shared/money"
+	"github.com/adrianostankewicz/bank/internal/domain/transaction"
 )
 
 type AccountWithdrawUseCase struct {

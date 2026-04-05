@@ -3,7 +3,7 @@ package money_test
 import (
 	"testing"
 
-	"github.com/adrianostankewicz/bank/internal/core/shared/money"
+	"github.com/adrianostankewicz/bank/internal/domain/shared/money"
 	"github.com/stretchr/testify/assert"
 )
 

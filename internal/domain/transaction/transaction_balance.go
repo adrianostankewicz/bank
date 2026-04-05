@@ -1,6 +1,6 @@
 package transaction
 
-import "github.com/adrianostankewicz/bank/internal/core/shared/money"
+import "github.com/adrianostankewicz/bank/internal/domain/shared/money"
 
 func CalculateBalance(transactions []*Transaction) money.Money {
 	total := money.NewMoney(0)

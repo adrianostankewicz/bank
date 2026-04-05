@@ -3,7 +3,7 @@ package transaction
 import (
 	"time"
 
-	"github.com/adrianostankewicz/bank/internal/core/shared/money"
+	"github.com/adrianostankewicz/bank/internal/domain/shared/money"
 	"github.com/google/uuid"
 )
 

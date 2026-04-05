@@ -3,10 +3,10 @@ package usecases_test
 import (
 	"testing"
 
-	"github.com/adrianostankewicz/bank/internal/core/domain/account"
-	"github.com/adrianostankewicz/bank/internal/core/domain/transaction"
-	"github.com/adrianostankewicz/bank/internal/core/shared/money"
-	usecases "github.com/adrianostankewicz/bank/internal/core/usecases/account"
+	"github.com/adrianostankewicz/bank/internal/domain/account"
+	"github.com/adrianostankewicz/bank/internal/domain/shared/money"
+	"github.com/adrianostankewicz/bank/internal/domain/transaction"
+	usecases "github.com/adrianostankewicz/bank/internal/usecases/account"
 	"github.com/stretchr/testify/assert"
 )
 

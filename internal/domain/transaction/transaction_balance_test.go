@@ -3,8 +3,8 @@ package transaction_test
 import (
 	"testing"
 
-	"github.com/adrianostankewicz/bank/internal/core/domain/transaction"
-	"github.com/adrianostankewicz/bank/internal/core/shared/money"
+	"github.com/adrianostankewicz/bank/internal/domain/shared/money"
+	"github.com/adrianostankewicz/bank/internal/domain/transaction"
 	"github.com/stretchr/testify/assert"
 )
 
