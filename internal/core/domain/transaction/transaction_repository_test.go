@@ -10,7 +10,7 @@ import (
 
 func TestInMemoryTransactionRepositorySave(t *testing.T) {
 	repo := transaction.NewInMemoryTransactionRepository()
-	tr := transaction.NewTransaction("1", money.NewMoney(100), transaction.Deposit)
+	tr := transaction.NewTransaction("1", money.NewMoney(100), transaction.Credit)
 
 	err := repo.Save(tr)
 
@@ -19,9 +19,9 @@ func TestInMemoryTransactionRepositorySave(t *testing.T) {
 
 func TestInMemoryTransactionRepositoryFindByAccountID(t *testing.T) {
 	repo := transaction.NewInMemoryTransactionRepository()
-	tr := transaction.NewTransaction("1", money.NewMoney(100), transaction.Deposit)
-	trOne := transaction.NewTransaction("2", money.NewMoney(25), transaction.Deposit)
-	trTwo := transaction.NewTransaction("1", money.NewMoney(120), transaction.Withdraw)
+	tr := transaction.NewTransaction("1", money.NewMoney(100), transaction.Credit)
+	trOne := transaction.NewTransaction("2", money.NewMoney(25), transaction.Credit)
+	trTwo := transaction.NewTransaction("1", money.NewMoney(120), transaction.Debit)
 
 	repo.Save(tr)
 	repo.Save(trOne)
@@ -35,7 +35,7 @@ func TestInMemoryTransactionRepositoryFindByAccountID(t *testing.T) {
 
 func TestInMemoryTransactionRepositoryReset(t *testing.T) {
 	repo := transaction.NewInMemoryTransactionRepository()
-	tr := transaction.NewTransaction("1", money.NewMoney(100), transaction.Deposit)
+	tr := transaction.NewTransaction("1", money.NewMoney(100), transaction.Credit)
 
 	repo.Save(tr)
 
