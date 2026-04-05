@@ -69,7 +69,7 @@ func (uc *AccountTransferUseCase) Execute(input AccountTransferInput) (*AccountT
 		return nil, errors.New("insufficient balance")
 	}
 
-	debit := transaction.NewTransaction(input.OriginID, input.Amount, transaction.Debit)
+	debit := transaction.NewTransaction(input.OriginID, input.Amount.Negative(), transaction.Debit)
 	err = uc.transactionRepo.Save(debit)
 	if err != nil {
 		return nil, err

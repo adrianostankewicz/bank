@@ -62,7 +62,7 @@ func (uc *AccountWithdrawUseCase) Execute(input AccountWithdrawInput) (*AccountW
 		return nil, errors.New("insufficient balance")
 	}
 
-	tr := transaction.NewTransaction(input.AccountID, input.Amount, transaction.Debit)
+	tr := transaction.NewTransaction(input.AccountID, input.Amount.Negative(), transaction.Debit)
 
 	if err := uc.transactionRepo.Save(tr); err != nil {
 		return nil, err
