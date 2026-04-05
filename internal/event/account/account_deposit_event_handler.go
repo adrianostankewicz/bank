@@ -7,13 +7,13 @@ import (
 	usecases "github.com/adrianostankewicz/bank/internal/usecases/account"
 )
 
-type AccountOutputDTO struct {
+type AccountDepositOutputDTO struct {
 	ID      string `json:"id"`
 	Balance int64  `json:"balance"`
 }
 
 type AccountDepositEventResponse struct {
-	Destination AccountOutputDTO `json:"destination"`
+	Destination AccountDepositOutputDTO `json:"destination"`
 }
 
 type AccountDepositEventHandler struct {
@@ -34,7 +34,7 @@ func (h *AccountDepositEventHandler) Handle(ctx context.Context, event Event) (i
 	}
 
 	return AccountDepositEventResponse{
-		Destination: AccountOutputDTO{
+		Destination: AccountDepositOutputDTO{
 			ID:      output.Account.ID(),
 			Balance: output.Balance.Amount(),
 		},
