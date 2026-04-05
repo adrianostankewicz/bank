@@ -31,3 +31,7 @@ func (m Money) IsNegative() bool {
 func (m Money) IsGreaterThan(v Money) bool {
 	return m.amount > v.amount
 }
+
+func (m Money) Negative() Money {
+	return NewMoney(-m.amount)
+}
