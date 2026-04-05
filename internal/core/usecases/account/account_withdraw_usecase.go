@@ -53,10 +53,7 @@ func (uc *AccountWithdrawUseCase) Execute(input AccountWithdrawInput) (*AccountW
 		return nil, err
 	}
 
-	balance := money.NewMoney(0)
-	for _, t := range transactions {
-		balance = balance.Add(t.Amount())
-	}
+	balance := transaction.CalculateBalance(transactions)
 
 	if input.Amount.IsGreaterThan(balance) {
 		return nil, errors.New("insufficient balance")
@@ -68,9 +65,16 @@ func (uc *AccountWithdrawUseCase) Execute(input AccountWithdrawInput) (*AccountW
 		return nil, err
 	}
 
+	transactions, err = uc.transactionRepo.FindByAccountID(input.AccountID)
+	if err != nil {
+		return nil, err
+	}
+
+	balance = transaction.CalculateBalance(transactions)
+
 	return &AccountWithdrawOutput{
 		Account:     acc,
 		Transaction: tr,
-		Balance:     balance.Sub(input.Amount),
+		Balance:     balance,
 	}, nil
 }
