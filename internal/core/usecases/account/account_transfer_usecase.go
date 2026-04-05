@@ -60,10 +60,7 @@ func (uc *AccountTransferUseCase) Execute(input AccountTransferInput) (*AccountT
 		return nil, err
 	}
 
-	originBalance := money.NewMoney(0)
-	for _, t := range originTransactions {
-		originBalance = originBalance.Add(t.Amount())
-	}
+	originBalance := transaction.CalculateBalance(originTransactions)
 
 	if input.Amount.IsGreaterThan(originBalance) {
 		return nil, errors.New("insufficient balance")
@@ -83,17 +80,19 @@ func (uc *AccountTransferUseCase) Execute(input AccountTransferInput) (*AccountT
 		return nil, err
 	}
 
+	originTransactions, err = uc.transactionRepo.FindByAccountID(input.OriginID)
+	if err != nil {
+		return nil, err
+	}
+
+	originBalance = transaction.CalculateBalance(originTransactions)
+
 	destinationTransactions, err := uc.transactionRepo.FindByAccountID(input.DestinationID)
 	if err != nil {
 		return nil, err
 	}
 
-	originBalance = originBalance.Sub(input.Amount)
-
-	destinationBalance := money.NewMoney(0)
-	for _, t := range destinationTransactions {
-		destinationBalance = destinationBalance.Add(t.Amount())
-	}
+	destinationBalance := transaction.CalculateBalance(destinationTransactions)
 
 	return &AccountTransferOutput{
 		Origin:             origin,

@@ -65,10 +65,7 @@ func (uc *AccountDepositUseCase) Execute(input AccountDepositInput) (*AccountDep
 		return nil, err
 	}
 
-	balance := money.NewMoney(0)
-	for _, t := range transactions {
-		balance = balance.Add(t.Amount())
-	}
+	balance := transaction.CalculateBalance(transactions)
 
 	return &AccountDepositOutput{
 		Account:     acc,
