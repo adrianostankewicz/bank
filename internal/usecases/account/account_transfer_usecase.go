@@ -52,7 +52,10 @@ func (uc *AccountTransferUseCase) Execute(input AccountTransferInput) (*AccountT
 
 	destination, err := uc.accountRepo.FindById(input.DestinationID)
 	if err != nil {
-		return nil, errors.New("destination account not found")
+		destination = account.NewBaseAccount(input.DestinationID)
+		if err := uc.accountRepo.Save(destination); err != nil {
+			return nil, err
+		}
 	}
 
 	originTransactions, err := uc.transactionRepo.FindByAccountID(input.OriginID)
