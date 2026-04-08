@@ -6,10 +6,10 @@ import (
 )
 
 type Event struct {
-	Type        string `json:"type"`
-	Origin      string `json:"origin"`
-	Destination string `json:"destination"`
-	Amount      int64  `json:"amount"`
+	Type        string  `json:"type"`
+	Origin      string  `json:"origin"`
+	Destination string  `json:"destination"`
+	Amount      float64 `json:"amount"`
 }
 
 type EventHandler interface {
