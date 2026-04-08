@@ -8,6 +8,10 @@ func NewMoney(a int64) Money {
 	return Money{amount: a}
 }
 
+func NewMoneyFromFloat(amount float64) Money {
+	return NewMoney(int64(amount * 100))
+}
+
 func (m Money) Amount() int64 {
 	return m.amount
 }
@@ -34,4 +38,12 @@ func (m Money) IsGreaterThan(v Money) bool {
 
 func (m Money) Negative() Money {
 	return NewMoney(-m.amount)
+}
+
+func (m Money) ToUnit() int64 {
+	return m.amount / 100
+}
+
+func (m Money) ToFloat() float64 {
+	return float64(m.amount) / 100
 }

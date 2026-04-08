@@ -36,12 +36,16 @@ func main() {
 	dispatcher.Register("withdraw", withdrawEventHandler)
 	dispatcher.Register("transfer", transferEventHandler)
 
-	// web handler
-	webHandler := web.NewWebAccountHandler(dispatcher, balanceUC, resetUC)
+	// event handler
+	eventHandler := web.NewAccountEventHandler(dispatcher)
+
+	// http handler
+	balanceHandler := web.NewAccountBalanceHandler(balanceUC)
+	resetHandler := web.NewAccountResetHandler(resetUC)
 
 	// router
 	r := chi.NewRouter()
-	web.RegisterAccountRoutes(r, webHandler)
+	web.RegisterAccountRoutes(r, eventHandler, balanceHandler, resetHandler)
 
 	// server
 	fmt.Println("server running on port 3000")

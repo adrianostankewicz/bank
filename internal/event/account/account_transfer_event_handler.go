@@ -8,8 +8,8 @@ import (
 )
 
 type AccountTransferOutputDTO struct {
-	ID      string `json:"id"`
-	Balance int64  `json:"balance"`
+	ID      string  `json:"id"`
+	Balance float64 `json:"balance"`
 }
 
 type AccountTransferEventResponse struct {
@@ -29,7 +29,7 @@ func (h *AccountTransferEventHandler) Handle(ctx context.Context, event Event) (
 	output, err := h.usecase.Execute(usecases.AccountTransferInput{
 		OriginID:      event.Origin,
 		DestinationID: event.Destination,
-		Amount:        money.NewMoney(event.Amount),
+		Amount:        money.NewMoneyFromFloat(event.Amount),
 	})
 	if err != nil {
 		return nil, err
@@ -38,11 +38,11 @@ func (h *AccountTransferEventHandler) Handle(ctx context.Context, event Event) (
 	return AccountTransferEventResponse{
 		Origin: AccountTransferOutputDTO{
 			ID:      output.Origin.ID(),
-			Balance: output.OriginBalance.Amount(),
+			Balance: output.OriginBalance.ToFloat(),
 		},
 		Destination: AccountTransferOutputDTO{
 			ID:      output.Destination.ID(),
-			Balance: output.DestinationBalance.Amount(),
+			Balance: output.DestinationBalance.ToFloat(),
 		},
 	}, nil
 }

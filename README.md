@@ -44,7 +44,7 @@ go mod tidy
 go run cmd/main.go
 ```
 
-Server will start on port `8080`.
+Server will start on port `3000`.
 
 ## Running Tests
 
