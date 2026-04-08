@@ -2,6 +2,7 @@ package web
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	event "github.com/adrianostankewicz/bank/internal/event/account"
@@ -68,5 +69,7 @@ func (h *WebAccountHandler) Reset(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "text/plain")
 	w.WriteHeader(http.StatusOK)
+	fmt.Fprint(w, "OK")
 }
